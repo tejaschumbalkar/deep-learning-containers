@@ -107,6 +107,7 @@ You can pin your version by adding the version tag to your URL as follows:
 |PyTorch 1.8.0      |inference	|No				|CPU 		| 3.6 (py36)			|763104351884.dkr.ecr.us-east-1.amazonaws.com/pytorch-inference:1.8.0-cpu-py36-ubuntu18.04			|
 
 
+
 HuggingFace training containers
 ===============================
 
