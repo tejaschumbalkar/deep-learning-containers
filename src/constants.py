@@ -14,6 +14,7 @@ language governing permissions and limitations under the License.
 """
 
 import os
+import re
 
 # Environment settings
 FRAMEWORKS = {"mxnet", "tensorflow", "pytorch", "hugginface_tensorflow", "huggingface_pytorch"}
