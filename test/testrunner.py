@@ -53,7 +53,7 @@ def run_sagemaker_local_tests(images):
 
 def run_sagemaker_test_in_executor(image, num_of_instances, instance_type):
     """
-    Run pytest in a virtual environment for a particular image
+    Run pytest in a virtual env for a particular image
 
     Expected to run under multi-threading
 
