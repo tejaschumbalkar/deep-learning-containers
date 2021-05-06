@@ -35,8 +35,7 @@ function create_eks_cluster() {
 function create_node_group(){
 
     STATIC_NODEGROUP_INSTANCE_TYPE="m5.large"
-    GPU_NODEGROUP_INSTANCE_TYPE="p3.16xlarge"
-    INF_NODEGROUP_INSTANCE_TYPE="inf1.xlarge"
+    GPU_NODEGROUP_INSTANCE_TYPE="p4d.24xlarge"
     
     # static nodegroup
     eksctl create nodegroup \
@@ -55,29 +54,14 @@ function create_node_group(){
     --name ${1}-gpu-nodegroup-${2/./-} \
     --cluster ${1} \
     --node-type ${GPU_NODEGROUP_INSTANCE_TYPE} \
-    --nodes-min 0 \
+    --nodes-min 4 \
     --nodes-max 100 \
-    --node-volume-size 80 \
+    --node-volume-size 100 \
     --node-labels "test_type=gpu" \
     --tags "k8s.io/cluster-autoscaler/node-template/label/test_type=gpu" \
     --asg-access \
     --ssh-access \
     --ssh-public-key "${3}"
-
-    # dynamic inf nodegroup
-    eksctl create nodegroup \
-    --name ${1}-inf-nodegroup-${2/./-} \
-    --cluster ${1} \
-    --node-type ${INF_NODEGROUP_INSTANCE_TYPE} \
-    --nodes-min 0 \
-    --nodes-max 100 \
-    --node-volume-size 500 \
-    --node-labels "test_type=inf" \
-    --tags "k8s.io/cluster-autoscaler/node-template/label/test_type=inf,k8s.io/cluster-autoscaler/node-template/resources/aws.amazon.com/neuron=1" \
-    --asg-access \
-    --ssh-access \
-    --ssh-public-key "${3}" \
-    --install-neuron-plugin=false
 
 }
 

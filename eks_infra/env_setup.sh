@@ -4,7 +4,7 @@
 set -ex
 
 function install_kubectl_client(){
-    curl --silent --location https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl
+    curl --silent --location https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl
     chmod +x /usr/local/bin/kubectl
 }
 # aws caller identity
@@ -12,7 +12,7 @@ aws sts get-caller-identity
 
 # install aws-iam-authenticator
 if ! [ -x "$(command -v aws-iam-authenticator)" ]; then
-    curl --silent --location https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/aws-iam-authenticator -o /usr/local/bin/aws-iam-authenticator
+    curl --silent --location https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator -o /usr/local/bin/aws-iam-authenticator
     chmod +x /usr/local/bin/aws-iam-authenticator
 fi
 
@@ -43,7 +43,7 @@ kubectl version --short --client
 # "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz"
 
 if ! [ -x "$(command -v eksctl)" ]; then
-    curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.34.0/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+    curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
     mv /tmp/eksctl /usr/local/bin
 fi
 
