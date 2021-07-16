@@ -4,6 +4,7 @@ import logging
 import signal
 import argparse
 
+#Check for label
 LOGGER = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
