@@ -1,7 +1,6 @@
 import os
 
-import pytest
-#check for label 
+import pytest 
 import test.test_utils as test_utils
 import test.test_utils.ec2 as ec2_utils
 
