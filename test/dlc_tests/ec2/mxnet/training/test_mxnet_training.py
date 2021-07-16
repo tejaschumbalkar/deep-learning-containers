@@ -1,7 +1,7 @@
 import os
-#Check for labels
-import pytest
 
+import pytest
+#check for label 
 import test.test_utils as test_utils
 import test.test_utils.ec2 as ec2_utils
 
