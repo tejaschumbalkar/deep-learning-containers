@@ -2,6 +2,7 @@
   region: '&REGION <set-$REGION-in-environment>'
   framework: '&FRAMEWORK pytorch'
   version: '&VERSION 1.2.3'
+  #Checking fot labels
 
   repository_info:
     inference_repository: &INFERENCE_REPOSITORY
