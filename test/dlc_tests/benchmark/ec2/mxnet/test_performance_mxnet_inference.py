@@ -16,6 +16,7 @@ from src.benchmark_metrics import (
 MX_PERFORMANCE_INFERENCE_GPU_CMD = os.path.join(
     CONTAINER_TESTS_PREFIX, "benchmark", "run_mxnet_inference_performance_gpu"
 )
+
 MX_PERFORMANCE_INFERENCE_CPU_CMD = os.path.join(
     CONTAINER_TESTS_PREFIX, "benchmark", "run_mxnet_inference_performance_cpu"
 )
