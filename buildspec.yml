@@ -50,7 +50,6 @@ phases:
       - echo Build step finished on `date`
       - echo Starting test jobs
       - python src/start_testbuilds.py
-      - python src/send_status.py --status $CODEBUILD_BUILD_SUCCEEDING
 artifacts:
   files:
     - $HOME/test_type_images.json
