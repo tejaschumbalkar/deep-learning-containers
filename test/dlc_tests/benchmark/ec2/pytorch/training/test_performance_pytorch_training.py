@@ -20,7 +20,6 @@ from src.benchmark_metrics import (
     get_threshold_for_image,
 )
 
-
 PT_PERFORMANCE_TRAINING_GPU_SYNTHETIC_CMD = os.path.join(
     CONTAINER_TESTS_PREFIX, "benchmark", "run_pytorch_training_performance_gpu_synthetic",
 )

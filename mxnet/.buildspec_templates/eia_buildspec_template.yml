@@ -10,7 +10,6 @@
         repository_name: '&REPOSITORY_NAME !join [pr, "-", *FRAMEWORK, "-", *INFERENCE_IMAGE_TYPE, "-", eia]'
         repository: '&REPOSITORY !join [ *ACCOUNT_ID, .dkr.ecr., *REGION, .amazonaws.com/, *REPOSITORY_NAME ]'
 
-        
   context:
     inference_context: &INFERENCE_CONTEXT
       config:
