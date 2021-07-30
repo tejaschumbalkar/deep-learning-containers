@@ -91,7 +91,11 @@ def get_ec2_accelerator_type(default, processor):
             f"Aborting EC2 test run. Unrecognized processor type {processor}. "
             f"Please choose from {allowed_processors}"
         )
-    accelerator_type = os.getenv(f"EC2_{processor.upper()}_INSTANCE_TYPE", default)
+    accelerator_type = os.getenv(f"EC2_{processor.upper()}_INSTANCE_TYPE")
+    if not accelerator_type:
+        if is_mainline_context():
+            return []
+        return [default]
     return [accelerator_type]
 
 
@@ -131,6 +135,7 @@ def launch_instance(
         "TagSpecifications": [
             {"ResourceType": "instance", "Tags": [{"Key": "Name", "Value": f"CI-CD {instance_name}"}],},
         ],
+        "BlockDeviceMappings": [{"DeviceName": "/dev/sda1", "Ebs": {"VolumeSize": 70,}}]
     }
     if user_data:
         arguments_dict["UserData"] = user_data

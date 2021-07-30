@@ -44,6 +44,7 @@ def _retrieve_instance_id():
     Retrieve instance ID from instance metadata service
     """
     instance_id = None
+    # We can't use IMDSv2 here which needs token, as adding it mandates docker container to add additional parameter "--network host", else it hangs.
     url = "http://169.254.169.254/latest/meta-data/instance-id"
     response = requests_helper(url, timeout=0.1)
 
@@ -76,7 +77,7 @@ def _retrieve_instance_region():
         "us-west-1",
         "us-west-2",
     ]
-
+    # We can't use IMDSv2 here which needs token, as adding it mandates docker container to add additional parameter "--network host", else it hangs.
     url = "http://169.254.169.254/latest/dynamic/instance-identity/document"
     response = requests_helper(url, timeout=0.1)
 
@@ -153,7 +154,7 @@ def parse_args():
 
     args, _unknown = parser.parse_known_args()
 
-    fw_version_pattern = r"\d+(\.\d+){1,2}"
+    fw_version_pattern = r"\d+(\.\d+){1,2}(-rc\d)?"
     assert re.fullmatch(fw_version_pattern, args.framework_version), (
         f"args.framework_version = {args.framework_version} does not match {fw_version_pattern}\n"
         f"Please specify framework version as X.Y.Z or X.Y."

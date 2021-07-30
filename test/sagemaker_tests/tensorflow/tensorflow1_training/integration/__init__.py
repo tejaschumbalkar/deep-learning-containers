@@ -28,6 +28,7 @@ RESOURCE_PATH = os.path.join(os.path.dirname(__file__), "..", "resources")
 
 # these regions have some p2 and p3 instances, but not enough for automated testing
 NO_P2_REGIONS = [
+    "ap-northeast-3",
     "ca-central-1",
     "eu-central-1",
     "eu-west-2",
@@ -42,6 +43,9 @@ NO_P2_REGIONS = [
     "af-south-1",
 ]
 NO_P3_REGIONS = [
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
     "ap-southeast-1",
     "ap-southeast-2",
     "ap-south-1",
@@ -59,6 +63,7 @@ NO_P3_REGIONS = [
     "af-south-1",
 ]
 NO_P4_REGIONS = [
+    "ap-northeast-3",
     "ap-southeast-1",
     "ap-southeast-2",
     "ap-south-1",
@@ -176,7 +181,7 @@ def get_account_id_from_image_uri(image_uri):
     :return: <str> AWS Account ID
     """
     return image_uri.split(".")[0]
-    
+
 
 def reupload_image_to_test_ecr(source_image_uri, target_image_repo_name, target_region):
     """

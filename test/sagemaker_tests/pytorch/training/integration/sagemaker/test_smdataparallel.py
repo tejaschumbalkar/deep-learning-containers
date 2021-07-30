@@ -14,6 +14,8 @@ from __future__ import absolute_import
 
 import pytest
 import os
+
+from sagemaker import utils
 from sagemaker.pytorch import PyTorch
 
 from packaging.version import Version
@@ -78,7 +80,7 @@ def test_smdataparallel_throughput(n_virginia_sagemaker_session, framework_versi
             hyperparameters=hyperparameters,
             distribution=distribution
         )
-        pytorch.fit()
+        pytorch.fit(job_name=utils.unique_name_from_base('test-pt-smddp-throughput'))
 
 
 @pytest.mark.integration("smdataparallel")
@@ -104,7 +106,7 @@ def test_smdataparallel_mnist_script_mode_multigpu(ecr_image, instance_type, py_
                           sagemaker_session=sagemaker_session,
                           distribution=distribution)
 
-        pytorch.fit()
+        pytorch.fit(job_name=utils.unique_name_from_base('test-pt-smddp-mnist-script-mode'))
 
 
 @pytest.mark.processor("gpu")
@@ -132,7 +134,7 @@ def test_smdataparallel_mnist(n_virginia_sagemaker_session, framework_version, n
                           sagemaker_session=n_virginia_sagemaker_session,
                           distribution=distribution)
 
-        pytorch.fit()
+        pytorch.fit(job_name=utils.unique_name_from_base('test-pt-smddp-mnist'))
 
 
 @pytest.mark.processor("gpu")
@@ -140,14 +142,14 @@ def test_smdataparallel_mnist(n_virginia_sagemaker_session, framework_version, n
 @pytest.mark.integration("smdataparallel_smmodelparallel")
 @pytest.mark.model("mnist")
 @pytest.mark.parametrize('instance_types', ["ml.p3.16xlarge"])
-def test_smmodelparallel_smdataparallel_mnist(instance_types, n_virginia_ecr_image, py_version, n_virginia_sagemaker_session, tmpdir):
+def test_smmodelparallel_smdataparallel_mnist(instance_types, ecr_image, py_version, sagemaker_session, tmpdir):
     """
     Tests SM Distributed DataParallel and ModelParallel single-node via script mode
     This test has been added for SM DataParallelism and ModelParallelism tests for re:invent.
     TODO: Consider reworking these tests after re:Invent releases are done
     """
-    can_run_modelparallel = can_run_smmodelparallel(n_virginia_ecr_image)
-    can_run_dataparallel = can_run_smdataparallel(n_virginia_ecr_image)
+    can_run_modelparallel = can_run_smmodelparallel(ecr_image)
+    can_run_dataparallel = can_run_smdataparallel(ecr_image)
     if can_run_dataparallel and can_run_modelparallel:
         entry_point = 'smdataparallel_smmodelparallel_mnist_script_mode.sh'
     elif can_run_dataparallel:
@@ -160,12 +162,12 @@ def test_smmodelparallel_smdataparallel_mnist(instance_types, n_virginia_ecr_ima
     with timeout(minutes=DEFAULT_TIMEOUT):
         pytorch = PyTorch(entry_point=entry_point,
                           role='SageMakerRole',
-                          image_uri=n_virginia_ecr_image,
+                          image_uri=ecr_image,
                           source_dir=mnist_path,
                           instance_count=1,
                           instance_type=instance_types,
-                          sagemaker_session=n_virginia_sagemaker_session)
+                          sagemaker_session=sagemaker_session)
 
-        pytorch = _disable_sm_profiler(n_virginia_sagemaker_session.boto_region_name, pytorch)
+        pytorch = _disable_sm_profiler(sagemaker_session.boto_region_name, pytorch)
 
-        pytorch.fit()
+        pytorch.fit(job_name=utils.unique_name_from_base('test-pt-smdmp-smddp-mnist'))

@@ -59,6 +59,8 @@ NO_P2_REGIONS = [
 NO_P3_REGIONS = [
     "af-south-1",
     "ap-east-1",
+    "ap-northeast-1",
+    "ap-northeast-2",
     "ap-northeast-3",
     "ap-southeast-1",
     "ap-southeast-2",
@@ -289,7 +291,7 @@ def _get_remote_override_flags():
         result = s3_client.get_object(Bucket=f"dlc-cicd-helper-{account_id}", Key="override_tests_flags.json")
         json_content = json.loads(result["Body"].read().decode('utf-8'))
     except ClientError as e:
-        logger.error("ClientError when performing S3/STS operation. Exception: {}".format(e))
+        logger.warning("ClientError when performing S3/STS operation: {}".format(e))
         json_content = {}
     return json_content
 
