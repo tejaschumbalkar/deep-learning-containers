@@ -2,6 +2,7 @@ import os
 
 import pytest
 
+
 from test.test_utils import CONTAINER_TESTS_PREFIX, get_framework_and_version_from_tag
 from test.test_utils.ec2 import (
     execute_ec2_inference_performance_test,
