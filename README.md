@@ -7,7 +7,6 @@ Deep Learning Containers provide optimized environments with TensorFlow and MXNe
 Intel MKL (for CPU instances) libraries and 
 are available in the Amazon Elastic Container Registry (Amazon ECR). 
 
-
 The AWS DLCs are used in Amazon SageMaker as the default vehicles for your SageMaker jobs such as training, inference, 
 transforms etc. They've been tested for machine
 learning workloads on Amazon EC2, Amazon ECS and Amazon EKS services as well.
