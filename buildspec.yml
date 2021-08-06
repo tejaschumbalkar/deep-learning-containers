@@ -7,10 +7,8 @@ phases:
       docker: 18
   pre_build:
     commands:
-      - start-dockerd
-      - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - pip install -r src/requirements.txt
+      - python src/send_status.py --status 2
       - bash src/setup.sh $FRAMEWORK
       - python src/parse_partner_developers.py
   build:
@@ -49,6 +47,7 @@ phases:
     commands:
       - echo Build step finished on `date`
       - echo Starting test jobs
+      - python src/send_status.py --status $CODEBUILD_BUILD_SUCCEEDING
       - python src/start_testbuilds.py
 artifacts:
   files:

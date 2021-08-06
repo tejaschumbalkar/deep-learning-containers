@@ -21,6 +21,7 @@ def test_ecs_tensorflow_training_mnist_cpu(cpu_only, ecs_container_instance, ten
     CPU mnist test for TF Training
 
     Instance Type - c5.4xlarge
+    
 
     Given above parameters, registers a task with family named after this test, runs the task, and waits for
     the task to be stopped before doing teardown operations of instance and cluster.

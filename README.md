@@ -15,6 +15,7 @@ You can find more information on the images available in Sagemaker [here](https:
 
 ## License
 
+
 This project is licensed under the Apache-2.0 License.
 
 `smdistributed.dataparallel` and `smdistributed.modelparallel` are released under the [AWS Customer Agreement](https://aws.amazon.com/agreement/).
