@@ -16,6 +16,7 @@ Once you've selected your desired Deep Learning Containers image, continue with 
 
 
 
+
 Deep Learning Containers Docker Images are available in the following regions:
 
 | Region 					|Code 				|General Container	|Elastic Inference Container|Neuron Container	|Example URL																				|
