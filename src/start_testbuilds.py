@@ -75,6 +75,7 @@ def is_test_job_enabled(test_type):
     Check to see if a test job is enabled
     See if we should run the tests based on test types and config options.
     """
+    LOGGER.info(f"test_type {test_type}")
     if test_type == constants.SAGEMAKER_TESTS and config.is_sm_remote_test_enabled():
         return True
     if test_type == constants.EC2_TESTS and config.is_ec2_test_enabled():
