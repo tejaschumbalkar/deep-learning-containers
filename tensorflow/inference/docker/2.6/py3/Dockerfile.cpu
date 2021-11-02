@@ -1,5 +1,6 @@
 FROM ubuntu:20.04
 
+
 LABEL maintainer="Amazon AI"
 LABEL dlc_major_version="1"
 # Specify accept-bind-to-port LABEL for inference pipelines to use SAGEMAKER_BIND_TO_PORT
