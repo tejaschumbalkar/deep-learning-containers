@@ -1,10 +1,10 @@
 {
-    "operation": "upgrade_cluster",
+    "operation": "delete",
     "contexts":[
         "PR"
     ],
     "eks_clusters":[
-        "mxnet"
+        "mxnet1"
     ],
     "eks_version": "1.21",
     "cluster_autoscalar_image_version": "v1.21.2"
