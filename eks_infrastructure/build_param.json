@@ -1,10 +1,10 @@
 {
-    "operation": "upgrade_nodegroup",
+    "operation": "upgrade_cluster",
     "contexts":[
         "PR"
     ],
     "eks_clusters":[
-        "mxnet1"
+        "mxnet"
     ],
     "eks_version": "1.20",
     "cluster_autoscalar_image_version": "v1.20.0"
