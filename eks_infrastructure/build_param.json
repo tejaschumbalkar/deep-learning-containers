@@ -6,6 +6,6 @@
     "eks_clusters":[
         "mxnet"
     ],
-    "eks_version": "1.22",
-    "cluster_autoscalar_image_version": "v1.22.2"
+    "eks_version": "1.21",
+    "cluster_autoscalar_image_version": "v1.21.2"
 }
