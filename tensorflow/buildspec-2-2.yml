@@ -19,6 +19,7 @@ repository_info:
     repository: &REPOSITORY !join [ *ACCOUNT_ID, .dkr.ecr., *REGION, .amazonaws.com/,
       *REPOSITORY_NAME ]
 
+
 context:
   training_context: &TRAINING_CONTEXT
     dockerd-entrypoint:
