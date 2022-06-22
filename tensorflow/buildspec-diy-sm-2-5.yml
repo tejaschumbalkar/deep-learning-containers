@@ -3,6 +3,8 @@ region: &REGION <set-$REGION-in-environment>
 framework: &FRAMEWORK tensorflow
 version: &VERSION 2.5.1
 short_version: &SHORT_VERSION 2.5
+arch_type: x86
+
 repository_info:
   training_repository: &TRAINING_REPOSITORY
     image_type: &TRAINING_IMAGE_TYPE training
@@ -48,7 +50,7 @@ images:
     tag_python_version: &TAG_PYTHON_VERSION py37
     os_version: &OS_VERSION ubuntu18.04
     enable_test_promotion: false
-    tag: !join [ *VERSION, "-", *DEVICE_TYPE, "-", *TAG_PYTHON_VERSION, "-", *OS_VERSION, "-ec2-ecs-eks"
+    tag: !join [ *VERSION, "-", *DEVICE_TYPE, "-", *TAG_PYTHON_VERSION, "-", *OS_VERSION, "-e3"
       ]
     docker_file: !join [ docker/, *SHORT_VERSION, /, *DOCKER_PYTHON_VERSION, /Dockerfile.diy.,
       *DEVICE_TYPE ]
@@ -80,7 +82,7 @@ images:
     os_version: &OS_VERSION ubuntu18.04
     enable_test_promotion: false
     tag: !join [ *VERSION, "-", *DEVICE_TYPE, "-", *TAG_PYTHON_VERSION, "-", *CUDA_VERSION,
-      "-", *OS_VERSION, "-ec2-ecs-eks" ]
+      "-", *OS_VERSION, "-e3" ]
     docker_file: !join [ docker/, *SHORT_VERSION, /, *DOCKER_PYTHON_VERSION, /, *CUDA_VERSION,
       /Dockerfile.diy., *DEVICE_TYPE ]
     context:
@@ -127,7 +129,7 @@ images:
     tag_python_version: &TAG_PYTHON_VERSION py37
     os_version: &OS_VERSION ubuntu18.04
     # TODO: To be reverted once TF Training 2.5.1 is released
-    tag: !join [ "2.5.1", "-", *DEVICE_TYPE, "-", *TAG_PYTHON_VERSION, "-", *OS_VERSION, "-ec2-ecs-eks" ]
+    tag: !join [ "2.5.1", "-", *DEVICE_TYPE, "-", *TAG_PYTHON_VERSION, "-", *OS_VERSION, "-e3" ]
     docker_file: !join [ docker/, *SHORT_VERSION, /, *DOCKER_PYTHON_VERSION, /Dockerfile.diy., *DEVICE_TYPE ]
     context:
       <<: *INFERENCE_CONTEXT
@@ -156,7 +158,7 @@ images:
     os_version: &OS_VERSION ubuntu18.04
     enable_test_promotion: false
     # TODO: To be reverted once TF Training 2.5.1 is released
-    tag: !join [ "2.5.1", "-", *DEVICE_TYPE, "-", *TAG_PYTHON_VERSION, "-", *CUDA_VERSION, "-", *OS_VERSION, "-ec2-ecs-eks" ]
+    tag: !join [ "2.5.1", "-", *DEVICE_TYPE, "-", *TAG_PYTHON_VERSION, "-", *CUDA_VERSION, "-", *OS_VERSION, "-e3" ]
     docker_file: !join [ docker/, *SHORT_VERSION, /, *DOCKER_PYTHON_VERSION, /, *CUDA_VERSION, /Dockerfile.diy., *DEVICE_TYPE ]
     context:
       <<: *INFERENCE_CONTEXT

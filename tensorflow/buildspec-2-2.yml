@@ -3,6 +3,7 @@ region: &REGION <set-$REGION-in-environment>
 framework: &FRAMEWORK tensorflow
 version: &VERSION 2.2.2
 short_version: &SHORT_VERSION 2.2
+arch_type: x86
 
 repository_info:
   training_repository: &TRAINING_REPOSITORY
@@ -17,6 +18,7 @@ repository_info:
     repository_name: &REPOSITORY_NAME !join [pr, "-", *FRAMEWORK, "-", *INFERENCE_IMAGE_TYPE]
     repository: &REPOSITORY !join [ *ACCOUNT_ID, .dkr.ecr., *REGION, .amazonaws.com/,
       *REPOSITORY_NAME ]
+
 
 context:
   training_context: &TRAINING_CONTEXT

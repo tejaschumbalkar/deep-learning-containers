@@ -5,7 +5,7 @@ import pytest
 import test.test_utils as test_utils
 import test.test_utils.ec2 as ec2_utils
 
-from test.test_utils import CONTAINER_TESTS_PREFIX, LOGGER, is_tf_version, get_python_invoker
+from test.test_utils import CONTAINER_TESTS_PREFIX, UBUNTU_18_HPU_DLAMI_US_WEST_2, LOGGER, is_tf_version, get_python_invoker
 from test.test_utils.ec2 import execute_ec2_training_test, get_ec2_instance_type
 
 
@@ -22,12 +22,14 @@ TF_TENSORBOARD_CMD = os.path.join(CONTAINER_TESTS_PREFIX, "testTensorBoard")
 TF_ADDONS_CMD = os.path.join(CONTAINER_TESTS_PREFIX, "testTFAddons")
 TF_DATASERVICE_TEST_CMD = os.path.join(CONTAINER_TESTS_PREFIX, "testDataservice")
 TF_DATASERVICE_DISTRIBUTE_TEST_CMD = os.path.join(CONTAINER_TESTS_PREFIX, "testDataserviceDistribute")
+TF_HABANA_TEST_SUITE_CMD = os.path.join(CONTAINER_TESTS_PREFIX, "testHabanaTFSuite")
 
 TF_EC2_SINGLE_GPU_INSTANCE_TYPE = get_ec2_instance_type(
     default="p3.2xlarge", processor="gpu", filter_function=ec2_utils.filter_only_single_gpu
 )
 TF_EC2_GPU_INSTANCE_TYPE = get_ec2_instance_type(default="g3.16xlarge", processor="gpu")
 TF_EC2_CPU_INSTANCE_TYPE = get_ec2_instance_type(default="c4.8xlarge", processor="cpu")
+TF_EC2_HPU_INSTANCE_TYPE = get_ec2_instance_type(default="dl1.24xlarge", processor="hpu")
 
 
 class TFTrainingTestFailure(Exception):
@@ -67,7 +69,8 @@ def test_tensorflow_train_mnist_cpu(tensorflow_training, ec2_connection, cpu_onl
     execute_ec2_training_test(ec2_connection, tensorflow_training, TF_MNIST_CMD)
 
 
-# TODO: Re-enable for TF1 by removing tf2_only fixture once infrastructure issues are addressed
+# TODO: re-enable when infra issues are resolved
+@pytest.mark.skip(reason="Test currently fails due to infra issues, but passes manually")
 @pytest.mark.integration("horovod")
 @pytest.mark.model("resnet")
 @pytest.mark.parametrize("ec2_instance_type", TF_EC2_GPU_INSTANCE_TYPE, indirect=True)
@@ -83,7 +86,6 @@ def test_tensorflow_with_horovod_gpu(tensorflow_training, ec2_instance_type, ec2
     )
 
 
-# TODO: Re-enable for TF1 by removing tf2_only fixture once infrastructure issues are addressed
 @pytest.mark.integration("horovod")
 @pytest.mark.model("resnet")
 @pytest.mark.parametrize("ec2_instance_type", TF_EC2_CPU_INSTANCE_TYPE, indirect=True)
@@ -209,7 +211,9 @@ def run_data_service_test(ec2_connection, ec2_instance_ami, tensorflow_training,
     python_invoker = get_python_invoker(ec2_instance_ami)
     _, tensorflow_version = test_utils.get_framework_and_version_from_tag(tensorflow_training)
     ec2_connection.run(f"{python_invoker} -m pip install --upgrade pip")
+    ec2_connection.run(f"{python_invoker} -m pip install 'protobuf>=3.20,<3.21'")
     ec2_connection.run(f"{python_invoker} -m pip install tensorflow=={tensorflow_version}")
+    ec2_connection.run(f"{python_invoker} -m pip install 'protobuf>=3.20,<3.21'")
     container_test_local_dir = os.path.join("$HOME", "container_tests")
     ec2_connection.run(f"cd {container_test_local_dir}/bin && screen -d -m {python_invoker} start_dataservice.py")
     execute_ec2_training_test(ec2_connection, tensorflow_training, cmd, host_network=True)
@@ -261,3 +265,11 @@ def test_tensorflow_distribute_dataservice_gpu(
     if test_utils.is_image_incompatible_with_instance_type(tensorflow_training, ec2_instance_type):
         pytest.skip(f"Image {tensorflow_training} is incompatible with instance type {ec2_instance_type}")
     run_data_service_test(ec2_connection, ec2_instance_ami, tensorflow_training, TF_DATASERVICE_DISTRIBUTE_TEST_CMD)
+
+
+@pytest.mark.integration('tensorflow-dataservice-distribute-test')
+@pytest.mark.model("N/A")
+@pytest.mark.parametrize("ec2_instance_type", TF_EC2_HPU_INSTANCE_TYPE, indirect=True)
+@pytest.mark.parametrize("ec2_instance_ami", [UBUNTU_18_HPU_DLAMI_US_WEST_2], indirect=True)
+def test_tensorflow_standalone_hpu(tensorflow_training_habana, ec2_connection, upload_habana_test_artifact):
+    execute_ec2_training_test(ec2_connection, tensorflow_training_habana, TF_HABANA_TEST_SUITE_CMD, container_name="ec2_training_habana_tensorflow_container", enable_habana_async_execution=True)
