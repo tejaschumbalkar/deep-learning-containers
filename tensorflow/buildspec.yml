@@ -189,4 +189,3 @@ images:
     enable_test_promotion: true
     context:
       <<: *INFERENCE_CONTEXT
-
