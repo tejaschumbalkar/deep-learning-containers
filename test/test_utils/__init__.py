@@ -1049,7 +1049,7 @@ def parse_canary_images(framework, region, image_type):
     versions = []
     for v, inf_train in versions_counter.items():
         # Earlier versions of huggingface did not have inference, Graviton is only inference
-        if (inf_train["inf"] and inf_train["tr"]) or framework.startswith("huggingface") or use_graviton:
+        if (inf_train["inf"] and image_type == "inference") or (inf_train["tr"] and image_type == "training") or framework.startswith("huggingface") or use_graviton:
             versions.append(v)
 
     # Sort ascending to descending, use lambda to ensure 2.2 < 2.15, for instance
@@ -1446,6 +1446,17 @@ NEURON_VERSION_MANIFEST = {
     "2.6.0": {
         "pytorch": {
             "1.12.0": "1.12.0.1.4.0",
+        },
+    },
+    "2.8.0": {
+        "pytorch": {
+            "1.13.0": "1.13.0.1.5.0",
+        },
+    },
+    "2.8.0": {
+        "tensorflow": {
+            "1.15.5": "1.15.5.2.6.5.0",
+            "2.10.1": "2.10.1.2.6.5.0",
         },
     },
     "1.19.1": {
