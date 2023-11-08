@@ -1,5 +1,4 @@
 version: 0.2
-
 #TODO: Move all constatns to environment variables
 phases:
   install:
@@ -17,6 +16,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - git clone https://github.com/HabanaAI/gaudi-test-suite.git
       - echo Building the Docker image...
       - python src/main.py --buildspec $FRAMEWORK_BUILDSPEC_FILE --framework $FRAMEWORK
   post_build:
